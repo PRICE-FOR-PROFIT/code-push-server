@@ -34,6 +34,7 @@ jobs:
         run: npm run build
 
       - name: Login to Azure Container Registry
+        uses: ./actions-remote/common/docker-login
         with:
           login-server: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ secrets.REGISTRY_USERNAME_FORKED }}
