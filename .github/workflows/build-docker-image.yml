@@ -5,6 +5,9 @@ on:
     branched:
       - devo-1262-self-hosted-codepush
 
+env:
+  CONTAINER_REGISTRY: "insight2profitregistry.azurecr.io"
+
 jobs:
   build:
     runs-on: ubuntu-latest
