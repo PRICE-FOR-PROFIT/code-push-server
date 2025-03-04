@@ -12,6 +12,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Checkout shared action library
+        uses: actions/checkout@v3
+        with:
+          repository: PRICE-FOR-PROFIT/actions-shared-library
+          token: ${{ secrets.GH_PAT_BUILD_ACCOUNT_FORKED }}
+          path: actions-remote
+
+
       - name: Set up Node
         uses: actions/setup-node@v2
         with:
@@ -24,6 +32,12 @@ jobs:
       - name: Build Server
         working-directory: ./api
         run: npm run build
+
+      - name: Login to Azure Container Registry
+        with:
+          login-server: ${{ env.CONTAINER_REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME_FORKED }}
+          password: ${{ secrets.REGISTRY_PASSWORD_FORKED }}
 
       - name: Build Docker Image
         run: docker build -t build-server .
