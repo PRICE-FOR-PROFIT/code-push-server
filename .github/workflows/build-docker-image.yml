@@ -43,5 +43,9 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME_FORKED }}
           password: ${{ secrets.REGISTRY_PASSWORD_FORKED }}
 
+      - name: Generate Dockertag
+        uses: ./actions-remote/common/generate-dockertag
+        id: dockertag
+
       - name: Build Docker Image
-        run: docker build -t build-server .
+        run: docker build -t ${{ env.CONTAINER_REGISTRY }}/codepush-${{ steps.dockertag.outputs.branch_name }}:${{ steps.dockertag.outputs.dockertag }} .
